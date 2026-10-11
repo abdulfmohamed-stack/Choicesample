@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark light" />
+  <title>CR Consulting Command Compliance Intelligence — Operations Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="appShell" class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">CR</div>
+        <div><strong>CR Consulting</strong><span>Command Compliance Intelligence</span></div>
+      </div>
+      <nav id="navMenu" class="nav-menu">
+        <div class="nav-section-title">Portfolio Intelligence</div>
+        <button class="nav-item active" data-view="executive"><span>◈</span>Executive Command</button>
+        <button class="nav-item" data-view="intelligence"><span>✦</span>Intelligence Lab</button>
+        <button class="nav-item" data-view="clients"><span>◎</span>Client Explorer</button>
+        <button class="nav-item" data-view="countries"><span>⌁</span>Country & Corridors</button>
+
+        <div class="nav-section-title">Compliance Operations</div>
+        <button class="nav-item" data-view="queue"><span>⚑</span>Review Queue</button>
+        <button class="nav-item" data-view="kycRefresh"><span>⟳</span>KYC Refresh Due</button>
+        <button class="nav-item" data-view="eddReview"><span>◆</span>High-Risk EDD Review</button>
+        <button class="nav-item" data-view="beneficiaryAlerts"><span>⌘</span>Shared Beneficiary Alerts</button>
+        <button class="nav-item" data-view="businessRelationships"><span>↔</span>Business Relationships</button>
+
+        <div class="nav-section-title">Governance & Audit</div>
+        <button class="nav-item" data-view="quality"><span>✓</span>Data Quality</button>
+        <button class="nav-item" data-view="reviews"><span>✎</span>Compliance Reviews</button>
+        <button class="nav-item" data-view="ratingHistory"><span>⇅</span>Risk Rating History</button>
+        <button class="nav-item" data-view="history"><span>↻</span>Risk Movement History</button>
+        <button class="nav-item" data-view="methodology"><span>i</span>Methodology</button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="privacy-chip"><span class="pulse"></span>Local-only processing</div>
+        <p>Excel data stays in this browser. Nothing is uploaded to a server.</p>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow" id="viewEyebrow">EXECUTIVE RISK COMMAND CENTER</div>
+          <h1 id="viewTitle">Portfolio Intelligence</h1>
+        </div>
+        <div class="top-actions">
+          <div id="fileStatus" class="file-status"><span class="status-dot"></span><span>No workbook loaded</span></div>
+          <button id="themeBtn" class="icon-btn" title="Toggle theme">◐</button>
+          <label class="primary-btn upload-btn" for="fileInput">Upload Excel</label>
+          <input id="fileInput" type="file" accept=".xlsx,.xlsm" hidden />
+        </div>
+      </header>
+
+      <section id="welcomePanel" class="welcome-panel">
+        <div class="welcome-glow"></div>
+        <div class="welcome-copy">
+          <div class="welcome-badge">PREMIUM OFFLINE ANALYTICS</div>
+          <h2>Turn four Excel tabs into a complete compliance operations command center.</h2>
+          <p>Upload a workbook containing <strong>Data</strong>, <strong>Country</strong>, <strong>Occupations</strong>, and <strong>Schema1</strong>. The dashboard will calculate the CR Consulting policy classification, Schema1 behavioral monitoring, approval controls, early-warning analytics, and persistent risk movements, Compliance Officer reviews, customer KYC history, and updated Excel export.</p>
+          <div class="welcome-actions">
+            <label class="primary-btn large upload-btn" for="fileInput">Select Excel Workbook</label>
+            <button id="loadSampleBtn" class="ghost-btn large">How to use</button>
+          </div>
+          <div class="feature-row">
+            <span>✓ 0 / 5 / 10 policy model</span><span>✓ Schema1 behavior index</span><span>✓ 20K+ transactions</span><span>✓ Local audit history</span><span>✓ Compliance notes to Excel</span><span>✓ New 59-column Data layout</span><span>✓ Customer KYC history</span><span>✓ Mandatory-reason rating history</span><span>✓ KYC & EDD due worklists</span><span>✓ Shared-beneficiary network detection</span>
+          </div>
+        </div>
+        <div class="welcome-visual">
+          <div class="orbital-card"><span class="orbital-value">100</span><span>Risk Pressure</span><div class="orbit o1"></div><div class="orbit o2"></div></div>
+        </div>
+      </section>
+
+      <div id="progressPanel" class="progress-panel hidden">
+        <div class="progress-head"><strong id="progressText">Reading workbook…</strong><span id="progressPct">0%</span></div>
+        <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+      </div>
+
+      <section id="dashboardArea" class="dashboard-area hidden">
+        <div class="unsaved-banner hidden" id="unsavedBanner">
+          <div class="unsaved-banner-text">
+            <span class="unsaved-dot"></span>
+            <span><strong id="unsavedBannerCount">0</strong> unsaved compliance change(s) — recorded in this browser tab only. Download the updated Excel to embed them in the workbook before closing this tab.</span>
+          </div>
+          <button class="primary-btn on-banner" id="unsavedBannerExportBtn">Download Updated Excel</button>
+        </div>
+        <div class="command-strip">
+          <div class="dataset-summary">
+            <strong id="datasetName">Workbook</strong>
+            <span id="analysisMeta">Analysis date</span>
+          </div>
+          <div class="command-actions">
+            <button id="resetFiltersBtn" class="ghost-btn">Reset Filters</button>
+            <button id="exportClientsBtn" class="ghost-btn">Export Register CSV</button>
+            <button id="exportHistoryBtn" class="ghost-btn">Export History</button>
+            <button id="saveExcelBtn" class="primary-btn">Download Updated Excel</button>
+            <button id="printBtn" class="ghost-btn">Print / PDF</button>
+          </div>
+        </div>
+
+        <section id="view-executive" class="view active-view">
+          <div class="exec-hero">
+            <div class="exec-hero-grid">
+              <div>
+                <span class="exec-hero-eyebrow"><span class="pulse"></span>LIVE PORTFOLIO BRIEFING</span>
+                <h1 class="hero-headline" id="execHeroHeadline">Portfolio risk is <strong>within range</strong> this cycle.</h1>
+                <div class="hero-metric-row" id="execHeroMetrics"></div>
+              </div>
+              <div class="narrative-card">
+                <div class="narrative-head"><span class="narrative-orb">✦</span><strong>Executive Briefing</strong></div>
+                <p class="narrative-body" id="execNarrativeBody">Upload a workbook to generate the live briefing.</p>
+                <div class="narrative-foot">Generated locally from the current workbook · supports, but does not replace, analyst judgment and Compliance Officer approval.</div>
+              </div>
+            </div>
+            <div class="master-file-strip" id="masterFileStrip">
+              <div class="master-file-head">
+                <div>
+                  <span class="master-file-dot"></span>
+                  <strong>Master File Ledger</strong>
+                  <span class="master-file-sub">Every Compliance Officer decision below is embedded in <span id="masterFileWorkbookName">this workbook</span> — download the updated file to carry it forward.</span>
+                </div>
+                <button class="ghost-btn on-dark" id="masterFileExportBtn">Download Updated Excel</button>
+              </div>
+              <div class="master-file-counts" id="masterFileCounts"></div>
+              <div class="master-file-latest" id="masterFileLatest"></div>
+            </div>
+          </div>
+          <div class="executive-layout">
+            <aside class="filter-console card">
+              <div class="card-title-row"><div><span class="section-kicker">CONTROL PANEL</span><h3>Portfolio Filters</h3></div><span id="filteredCount" class="count-pill">0</span></div>
+              <div class="filter-group"><label>Risk Tier</label><div class="segmented" data-filter="tier"><button class="active" data-value="All">All</button><button data-value="High">High</button><button data-value="Medium">Medium</button><button data-value="Low">Low</button></div></div>
+              <div class="filter-group"><label>Review Priority</label><div class="segmented grid-2" data-filter="priority"><button class="active" data-value="All">All</button><button data-value="Critical">Critical</button><button data-value="High">High</button><button data-value="Elevated">Elevated</button><button data-value="Routine">Routine</button></div></div>
+              <div class="filter-group"><label>Country Focus</label><select id="countryFilter"><option>All</option></select></div>
+              <div class="filter-group"><label>Activity Window</label><div class="segmented" data-filter="window"><button data-value="30">30D</button><button data-value="90">90D</button><button class="active" data-value="365">365D</button></div></div>
+              <div class="filter-group"><label>STR Signal</label><div class="segmented" data-filter="str"><button class="active" data-value="All">All</button><button data-value="Yes">STR Only</button><button data-value="No">No STR</button></div></div>
+              <div class="filter-group"><label>Risk Appetite <strong id="appetiteValue">60</strong></label><input id="appetiteSlider" type="range" min="0" max="100" value="60" /></div>
+              <div class="active-view-box"><span>Current View</span><div id="activeFilterSummary">All clients · 365 days · All countries</div></div>
+            </aside>
+
+            <div class="executive-content">
+              <div id="kpiGrid" class="kpi-grid"></div>
+              <div id="intelStrip" class="intel-strip"></div>
+              <div class="chart-grid">
+                <div class="card chart-card"><div class="card-title-row"><div><span class="section-kicker">CLASSIFICATION</span><h3>Portfolio Risk Mix</h3></div><span class="hint">Click a segment to filter</span></div><div id="riskMixChart" class="chart"></div></div>
+                <div class="card chart-card wide"><div class="card-title-row"><div><span class="section-kicker">CORRIDORS</span><h3>Risk-Adjusted Country Exposure</h3></div><span class="hint">Top destinations</span></div><div id="countryChart" class="chart"></div></div>
+                <div class="card chart-card wide"><div class="card-title-row"><div><span class="section-kicker">MOMENTUM</span><h3>Rolling Volume + 3-Month Forecast</h3></div><span class="forecast-badge" id="execForecastBadge">Forecast</span></div><div class="chart-legend-row"><span><span class="dot" style="background:#0f9f8d"></span>Actual</span><span><span class="dot" style="background:#6f46d9"></span>Projected trend</span><span>Shaded band = forecast uncertainty</span></div><div id="monthlyChart" class="chart"></div></div>
+                <div class="card chart-card"><div class="card-title-row"><div><span class="section-kicker">PRESSURE</span><h3>Portfolio Risk Pressure</h3></div><span id="pressureLabel" class="risk-badge">—</span></div><div id="pressureGauge" class="chart"></div></div>
+              </div>
+              <div id="managementSignals" class="management-signals"></div>
+              <div class="card table-card">
+                <div class="card-title-row"><div><span class="section-kicker">BOARD WATCHLIST</span><h3>Urgency + Risk-Adjusted Exposure</h3></div><button class="text-btn" data-go="queue">Open full queue →</button></div>
+                <div class="table-wrap"><table><thead><tr><th>#</th><th>Client</th><th>Name</th><th>Risk</th><th>Volume</th><th>Behavior</th><th>Country</th><th>Priority</th><th>Primary Driver</th></tr></thead><tbody id="watchlistBody"></tbody></table></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-intelligence" class="view">
+          <div class="narrative-card on-surface" style="margin-bottom:16px;">
+            <div class="narrative-head"><span class="narrative-orb">◆</span><strong>Analyst Briefing</strong></div>
+            <p class="narrative-body" id="analystNarrativeBody">Upload a workbook to generate the analyst briefing.</p>
+            <div class="narrative-foot">Deterministic, data-driven commentary — not a substitute for analyst review.</div>
+          </div>
+          <div id="intelligenceKpis" class="kpi-grid intelligence-kpis"></div>
+          <div class="chart-grid intelligence-grid">
+            <div class="card chart-card wide"><div class="card-title-row"><div><span class="section-kicker">EARLY WARNING</span><h3>Risk Momentum Matrix</h3></div><span class="hint">Color reflects risk severity</span></div><div id="momentumMatrix" class="chart"></div></div>
+            <div class="card chart-card wide"><div class="card-title-row"><div><span class="section-kicker">BEHAVIOR</span><h3>Policy Tier vs Behavioral Index</h3></div></div><div id="behaviorScatter" class="chart"></div></div>
+            <div class="card chart-card wide"><div class="card-title-row"><div><span class="section-kicker">CONTRIBUTION</span><h3>Risk Pressure Drivers</h3></div></div><div id="pressureDrivers" class="chart"></div></div>
+            <div class="card chart-card wide"><div class="card-title-row"><div><span class="section-kicker">ANOMALY</span><h3>Peer Outlier Distribution</h3></div></div><div id="peerChart" class="chart"></div></div>
+            <div class="card chart-card wide">
+              <div class="card-title-row"><div><span class="section-kicker">PREDICTIVE</span><h3>Volume Forecast — Next 3 Months</h3></div><span class="forecast-badge" id="labForecastBadge">Trend projection</span></div>
+              <div class="chart-legend-row"><span><span class="dot" style="background:#0f9f8d"></span>Actual</span><span><span class="dot" style="background:#6f46d9"></span>Projected</span><span id="labForecastFit"></span></div>
+              <div id="forecastChart" class="chart"></div>
+            </div>
+            <div class="card chart-card wide">
+              <div class="card-title-row"><div><span class="section-kicker">STRUCTURE</span><h3>Risk Factor Correlation Matrix</h3></div></div>
+              <div class="corr-scale-note">Pearson correlation across risk factors, computed live across the current client population. Values near +1/-1 indicate strong relationships; near 0 indicates none.</div>
+              <div id="correlationChart" class="chart" style="height:360px;"></div>
+            </div>
+          </div>
+          <div class="intelligence-tables">
+            <div class="card table-card"><div class="card-title-row"><div><span class="section-kicker">EMERGING RISK</span><h3>Fastest Deteriorating Low / Medium Clients</h3></div></div><div class="table-wrap"><table><thead><tr><th>Client</th><th>Name</th><th>Tier</th><th>Momentum</th><th>30D</th><th>90D</th><th>Countries</th></tr></thead><tbody id="emergingBody"></tbody></table></div></div>
+            <div class="card table-card"><div class="card-title-row"><div><span class="section-kicker">PROFILE MISMATCH</span><h3>Behavior vs Declared Profile</h3></div></div><div class="table-wrap"><table><thead><tr><th>Client</th><th>Occupation</th><th>Mismatch</th><th>365D</th><th>Peer x</th><th>Risk</th></tr></thead><tbody id="mismatchBody"></tbody></table></div></div>
+            <div class="card table-card"><div class="card-title-row"><div><span class="section-kicker">DORMANT REACTIVATION</span><h3>Returned After Three Inactive Months</h3></div></div><div class="table-wrap"><table><thead><tr><th>Client</th><th>Name</th><th>Reactivation x</th><th>Current Month</th><th>Risk</th><th>Priority</th></tr></thead><tbody id="dormantBody"></tbody></table></div></div>
+          </div>
+        </section>
+
+        <section id="view-clients" class="view">
+          <div class="operations-hero ">
+            <div>
+              <span class="section-kicker">CLIENT REGISTER</span>
+              <h2>Client Explorer</h2>
+              <p>Every client in the current book, searchable and sortable by any risk dimension.</p>
+              <div class="hero-stat-row" id="heroStatsClients"></div>
+            </div>
+          </div>
+          <div class="card explorer-card">
+            <div class="explorer-toolbar"><div><span class="section-kicker">CLIENT REGISTER</span><h3>Search, Sort and Drill Down</h3></div><div class="toolbar-controls"><input id="clientSearch" class="search-input" placeholder="Search client, name, occupation or country…" /><select id="clientPageSize"><option>25</option><option>50</option><option>100</option></select></div></div>
+            <div class="table-wrap tall"><table class="sortable-table"><thead><tr><th data-sort="clientId">Client</th><th data-sort="name">Name</th><th data-sort="occupation">Occupation</th><th data-sort="riskTier">Effective Tier</th><th data-sort="policyPoints">Policy Pts</th><th data-sort="behaviorIndex">Behavior</th><th data-sort="vol365">365D Volume</th><th data-sort="topCountry">Top Country</th><th data-sort="reviewPriority">Priority</th><th data-sort="approvalStatus">Approval</th></tr></thead><tbody id="clientTableBody"></tbody></table></div>
+            <div class="pagination"><button id="prevPage">← Previous</button><span id="pageInfo">Page 1</span><button id="nextPage">Next →</button></div>
+          </div>
+        </section>
+
+        <section id="view-countries" class="view">
+          <div class="operations-hero ">
+            <div>
+              <span class="section-kicker">GEOGRAPHIC EXPOSURE</span>
+              <h2>Country & Corridors</h2>
+              <p>Volume and risk exposure across every destination corridor in the book.</p>
+              <div class="hero-stat-row" id="heroStatsCountries"></div>
+            </div>
+          </div>
+          <div class="country-layout">
+            <div class="card chart-card wide"><div class="card-title-row"><div><span class="section-kicker">EXPOSURE</span><h3>Country Volume and Risk</h3></div></div><div id="countryBubbleChart" class="chart large-chart"></div></div>
+            <div class="card table-card"><div class="card-title-row"><div><span class="section-kicker">CORRIDOR TABLE</span><h3>Destination Exposure</h3></div></div><div class="table-wrap tall"><table><thead><tr><th>Country</th><th>Risk</th><th>Volume</th><th>Risk-Adjusted</th><th>Txns</th><th>Clients</th></tr></thead><tbody id="countryTableBody"></tbody></table></div></div>
+          </div>
+        </section>
+
+        <section id="view-queue" class="view">
+          <div class="operations-hero ">
+            <div>
+              <span class="section-kicker">COMPLIANCE OPERATIONS</span>
+              <h2>Review Queue</h2>
+              <p>Every client with a Critical, High or Elevated review priority, ranked for action.</p>
+              <div class="hero-stat-row" id="heroStatsQueue"></div>
+            </div>
+          </div>
+          <div class="queue-kpis" id="queueKpis"></div>
+          <div class="card table-card"><div class="explorer-toolbar"><div><span class="section-kicker">ACTION QUEUE</span><h3>Compliance Review Priorities</h3></div><input id="queueSearch" class="search-input" placeholder="Search queue…" /></div><div class="table-wrap tall"><table><thead><tr><th>Priority</th><th>Client</th><th>Name</th><th>Tier</th><th>Policy Pts</th><th>365D Volume</th><th>STR</th><th>LTR</th><th>Approval Status</th><th>Trigger Summary</th></tr></thead><tbody id="queueBody"></tbody></table></div></div>
+        </section>
+
+
+        <section id="view-kycRefresh" class="view">
+          <div class="operations-hero kyc-hero">
+            <div>
+              <span class="section-kicker">DAILY KYC OPERATIONS</span>
+              <h2>KYC Refresh Due</h2>
+              <p>A risk-based worklist anchored to the customer’s last completed refresh—not to every subsequent rating change.</p>
+              <div class="hero-stat-row" id="heroStatsKyc"></div>
+            </div>
+            <div class="policy-cycle-grid">
+              <div><strong>12</strong><span>months · High</span></div>
+              <div><strong>24</strong><span>months · Medium</span></div>
+              <div><strong>36</strong><span>months · Low</span></div>
+            </div>
+          </div>
+          <div id="kycRefreshKpis" class="queue-kpis"></div>
+          <div class="card table-card">
+            <div class="explorer-toolbar">
+              <div>
+                <span class="section-kicker">TODAY’S WORKLIST</span>
+                <h3>Customers Requiring KYC Refresh</h3>
+              </div>
+              <div class="toolbar-controls">
+                <select id="kycRefreshTierFilter">
+                  <option value="All">All Ratings</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+                <input id="kycRefreshSearch" class="search-input" placeholder="Search customer, ID status or occupation…" />
+                <button id="kycRefreshExcelBtn" class="primary-btn">Download Updated Excel</button>
+              </div>
+            </div>
+            <div class="history-note">
+              Due date = last completed KYC refresh + 12/24/36 months according to the customer’s current recorded rating.
+              A rating change recalculates the interval from the same last-refresh date. An expired ID does not reset the refresh date.
+            </div>
+            <div class="table-wrap tall">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Urgency</th>
+                    <th>Client</th>
+                    <th>Name</th>
+                    <th>Current Rating</th>
+                    <th>Last Refresh</th>
+                    <th>Refresh Due</th>
+                    <th>Days Overdue</th>
+                    <th>ID Status</th>
+                    <th>Last Transaction</th>
+                    <th>Occupation</th>
+                  </tr>
+                </thead>
+                <tbody id="kycRefreshBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-eddReview" class="view">
+          <div class="operations-hero edd-hero">
+            <div>
+              <span class="section-kicker">ANNUAL HIGH-RISK GOVERNANCE</span>
+              <h2>High-Risk EDD Review</h2>
+              <p>Only currently High-risk customers whose annual EDD review is due appear in this workspace.</p>
+              <div class="hero-stat-row" id="heroStatsEdd"></div>
+            </div>
+            <div class="hero-rule-chip"><strong>12 months</strong><span>after last EDD review</span></div>
+          </div>
+          <div id="eddReviewKpis" class="queue-kpis"></div>
+          <div class="card table-card">
+            <div class="explorer-toolbar">
+              <div>
+                <span class="section-kicker">DUE-ONLY REVIEW QUEUE</span>
+                <h3>High-Risk EDD Reviews Requiring Action</h3>
+              </div>
+              <div class="toolbar-controls">
+                <input id="eddReviewSearch" class="search-input" placeholder="Search customer, reason or review status…" />
+                <button id="eddReviewExcelBtn" class="primary-btn">Download Updated Excel</button>
+              </div>
+            </div>
+            <div class="history-note">
+              Customers remain hidden until 12 months after the date they became High risk or their most recent completed EDD review.
+            </div>
+            <div class="table-wrap tall">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Urgency</th>
+                    <th>Client</th>
+                    <th>Name</th>
+                    <th>Became High</th>
+                    <th>Why High Risk</th>
+                    <th>Last EDD Review</th>
+                    <th>Next EDD Due</th>
+                    <th>Days Overdue</th>
+                    <th>Review History</th>
+                  </tr>
+                </thead>
+                <tbody id="eddReviewBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-beneficiaryAlerts" class="view">
+          <div class="operations-hero network-hero">
+            <div>
+              <span class="section-kicker">NETWORK PATTERN DETECTION</span>
+              <h2>Shared Beneficiary Alerts</h2>
+              <p>Detects multiple distinct senders concentrating CAD 10,000 or more into the same beneficiary inside an adjustable rolling window.</p>
+              <div class="hero-stat-row" id="heroStatsBeneficiary"></div>
+            </div>
+            <div class="network-icon-orbit"><span>2+</span><small>senders</small></div>
+          </div>
+          <div class="rule-control-card card">
+            <div class="rule-control-copy">
+              <span class="section-kicker">ADJUSTABLE DETECTION RULE</span>
+              <h3>Multi-Sender / Single-Beneficiary Threshold</h3>
+              <p>At least two different senders, one beneficiary, and total exposure at or above the selected CAD threshold.</p>
+            </div>
+            <div class="rule-inputs">
+              <label>Rolling Window
+                <div class="input-with-unit"><input id="beneficiaryWindowHours" type="number" min="1" max="2160" value="48" /><span>hours</span></div>
+              </label>
+              <label>CAD Threshold
+                <div class="input-with-unit"><span>$</span><input id="beneficiaryThreshold" type="number" min="1" step="500" value="10000" /></div>
+              </label>
+              <button id="applyBeneficiaryRuleBtn" class="primary-btn">Run Detection</button>
+            </div>
+            <div class="rule-presets">
+              <button data-beneficiary-window="48">48 Hours</button>
+              <button data-beneficiary-window="168">7 Days</button>
+              <button data-beneficiary-window="240">10 Days</button>
+              <button data-beneficiary-window="720">30 Days</button>
+            </div>
+          </div>
+          <div id="beneficiaryAlertKpis" class="queue-kpis"></div>
+          <div class="card table-card">
+            <div class="explorer-toolbar">
+              <div><span class="section-kicker">AUTOMATED ALERTS</span><h3>Beneficiary Concentration Episodes</h3></div>
+              <div class="toolbar-controls">
+                <input id="beneficiaryAlertSearch" class="search-input" placeholder="Search beneficiary, sender or country…" />
+                <button id="exportBeneficiaryAlertsBtn" class="ghost-btn">Export Alerts CSV</button>
+              </div>
+            </div>
+            <div class="table-wrap tall">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Severity</th>
+                    <th>Beneficiary</th>
+                    <th>Senders</th>
+                    <th>Sender Names</th>
+                    <th>Total CAD</th>
+                    <th>Transactions</th>
+                    <th>Window</th>
+                    <th>First Transaction</th>
+                    <th>Last Transaction</th>
+                    <th>Destination</th>
+                  </tr>
+                </thead>
+                <tbody id="beneficiaryAlertBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-businessRelationships" class="view">
+          <div class="operations-hero relationship-hero">
+            <div>
+              <span class="section-kicker">BUSINESS RELATIONSHIP IDENTIFICATION</span>
+              <h2>Business Relationships</h2>
+              <p>Customers meeting the transaction-based relationship trigger: two CAD 1,000+ transactions or one CAD 3,000+ transaction within five years.</p>
+              <div class="hero-stat-row" id="heroStatsRelationship"></div>
+            </div>
+            <div class="hero-rule-chip"><strong>2× $1K</strong><span>or 1× $3K</span></div>
+          </div>
+          <div id="businessRelationshipKpis" class="queue-kpis"></div>
+          <div class="card table-card">
+            <div class="explorer-toolbar">
+              <div><span class="section-kicker">QUALIFYING CUSTOMERS</span><h3>Business Relationship Register</h3></div>
+              <div class="toolbar-controls">
+                <input id="businessRelationshipSearch" class="search-input" placeholder="Search name, address, client or occupation…" />
+                <button id="exportBusinessRelationshipsBtn" class="ghost-btn">Export Register CSV</button>
+              </div>
+            </div>
+            <div class="table-wrap tall">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Client</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Date of Birth</th>
+                    <th>Current Rating</th>
+                    <th>$1,000+ Txns</th>
+                    <th>Largest Txn</th>
+                    <th>5-Year Volume</th>
+                    <th>Qualification</th>
+                    <th>Last Activity</th>
+                  </tr>
+                </thead>
+                <tbody id="businessRelationshipBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-quality" class="view">
+          <div class="operations-hero ">
+            <div>
+              <span class="section-kicker">CONTROL ASSURANCE</span>
+              <h2>Data Quality</h2>
+              <p>Workbook readiness and field-mapping health for the current upload.</p>
+              <div class="hero-stat-row" id="heroStatsQuality"></div>
+            </div>
+          </div>
+          <div id="qualityKpis" class="kpi-grid"></div>
+          <div class="quality-layout">
+            <div class="card chart-card wide"><div class="card-title-row"><div><span class="section-kicker">DATA HEALTH</span><h3>Quality Issue Profile</h3></div></div><div id="qualityChart" class="chart"></div></div>
+            <div class="card"><div class="card-title-row"><div><span class="section-kicker">VALIDATION</span><h3>Workbook Readiness</h3></div></div><div id="qualityChecklist" class="checklist"></div></div>
+          </div>
+        </section>
+
+
+        <section id="view-reviews" class="view">
+          <div class="operations-hero ">
+            <div>
+              <span class="section-kicker">COMPLIANCE GOVERNANCE</span>
+              <h2>Compliance Officer Reviews</h2>
+              <p>The append-only record of every compliance decision made on this book.</p>
+              <div class="hero-stat-row" id="heroStatsReviews"></div>
+            </div>
+          </div>
+          <div id="reviewKpis" class="queue-kpis"></div>
+          <div class="card table-card">
+            <div class="explorer-toolbar">
+              <div>
+                <span class="section-kicker">APPEND-ONLY COMPLIANCE RECORD</span>
+                <h3>Compliance Officer Review Log</h3>
+              </div>
+              <div class="toolbar-controls">
+                <input id="reviewSearch" class="search-input" placeholder="Search client, owner, decision or note…" />
+                <button id="reviewExcelBtn" class="primary-btn">Download Updated Excel</button>
+              </div>
+            </div>
+            <div class="history-note">
+              Reviews are saved locally and embedded into the <strong>Compliance Notes</strong> tab when the updated workbook is downloaded. Existing review records are append-only and are not edited or deleted from this interface.
+            </div>
+            <div class="table-wrap tall">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Generated</th>
+                    <th>Client</th>
+                    <th>Name</th>
+                    <th>Current Stage</th>
+                    <th>Status</th>
+                    <th>Risk Decision</th>
+                    <th>Owner</th>
+                    <th>Review Date</th>
+                    <th>Next Follow-Up</th>
+                    <th>Tier</th>
+                    <th>Compliance Officer Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="reviewBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+
+        <section id="view-ratingHistory" class="view">
+          <div class="operations-hero ">
+            <div>
+              <span class="section-kicker">APPROVED RATING GOVERNANCE</span>
+              <h2>Risk Rating History</h2>
+              <p>The formal, reason-and-reviewer-backed history of approved rating changes.</p>
+              <div class="hero-stat-row" id="heroStatsRatingHistory"></div>
+            </div>
+          </div>
+          <div id="ratingHistoryKpis" class="queue-kpis"></div>
+          <div class="card table-card">
+            <div class="explorer-toolbar">
+              <div>
+                <span class="section-kicker">APPROVED RATING GOVERNANCE</span>
+                <h3>Risk Rating History</h3>
+              </div>
+              <div class="toolbar-controls">
+                <input id="ratingHistorySearch" class="search-input" placeholder="Search client, reason, reviewer or rating…" />
+                <button id="ratingHistoryExcelBtn" class="primary-btn">Download Updated Excel</button>
+              </div>
+            </div>
+            <div class="history-note">
+              This is the formal, append-only history of approved customer risk-rating changes.
+              A rating change cannot be saved unless a reason and reviewer are entered.
+              Records are embedded into the Excel <strong>Risk Rating History</strong> tab when the updated workbook is downloaded.
+            </div>
+            <div class="table-wrap tall">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Effective Date</th>
+                    <th>Client</th>
+                    <th>Name</th>
+                    <th>Changed From</th>
+                    <th>Changed To</th>
+                    <th>Direction</th>
+                    <th>Reason</th>
+                    <th>Reviewed By</th>
+                    <th>Recorded</th>
+                  </tr>
+                </thead>
+                <tbody id="ratingHistoryBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-history" class="view">
+          <div class="operations-hero ">
+            <div>
+              <span class="section-kicker">SYSTEM-GENERATED AUDIT TRAIL</span>
+              <h2>Risk Movement History</h2>
+              <p>Every automatically detected tier movement across the life of this book.</p>
+              <div class="hero-stat-row" id="heroStatsHistory"></div>
+            </div>
+          </div>
+          <div class="card table-card"><div class="explorer-toolbar"><div><span class="section-kicker">APPEND-ONLY AUDIT TRAIL</span><h3>Risk Movement History</h3></div><div class="toolbar-controls"><button id="importHistoryBtn" class="ghost-btn">Import History JSON</button><input id="historyInput" type="file" accept="application/json" hidden /><button id="clearHistoryBtn" class="danger-ghost">Clear Local History</button></div></div><div class="history-note">History is stored in this browser only. Export a JSON backup for formal retention or future import.</div><div class="table-wrap tall"><table><thead><tr><th>Date</th><th>Client</th><th>Name</th><th>Previous</th><th>Current</th><th>Movement</th><th>Classification</th><th>System Commentary</th></tr></thead><tbody id="historyBody"></tbody></table></div></div>
+        </section>
+
+        <section id="view-methodology" class="view">
+          <div class="operations-hero">
+            <div>
+              <span class="section-kicker">MODEL GOVERNANCE</span>
+              <h2>Methodology &amp; Controls</h2>
+              <p>How this console classifies, monitors, and governs every client in the book.</p>
+              <div class="hero-stat-row">
+                <div class="hero-stat"><span>Policy Tiers</span><strong>3</strong></div>
+                <div class="hero-stat"><span>Behavior Factors</span><strong>8</strong></div>
+                <div class="hero-stat"><span>Review Cycles</span><strong class="accent-blue">12 / 24 / 36mo</strong></div>
+                <div class="hero-stat"><span>Processing</span><strong class="accent-teal">100% Local</strong></div>
+              </div>
+            </div>
+          </div>
+          <div class="methodology-grid">
+            <article class="card methodology-card"><span class="section-kicker">OFFICIAL CLASSIFICATION</span><h3>CR Consulting Policy Model</h3><div class="method-tier high"><strong>10 points · High Risk</strong><p>Any CAD 10,000+ transaction, or a qualifying activity trigger combined with high-risk-country exposure.</p></div><div class="method-tier medium"><strong>5 points · Medium Risk</strong><p>Two CAD 1,000+ transactions in five years, one CAD 3,000+ transaction, or high-risk-country exposure.</p></div><div class="method-tier low"><strong>0 points · Low Risk</strong><p>No five-point or ten-point policy trigger.</p></div></article>
+            <article class="card methodology-card"><span class="section-kicker">BEHAVIORAL MONITORING</span><h3>Schema1 Index</h3><p>Separate 0–100 monitoring indicator derived from transaction count, country and beneficiary diversity, 30/90/365-day volume, country risk and occupation risk. It supports review prioritization but does not replace the official policy tier.</p><div class="formula-box">Behavior Index = weighted Schema1 components ÷ 66 × 100</div></article>
+            <article class="card methodology-card"><span class="section-kicker">GOVERNANCE</span><h3>Compliance Approval Guard</h3><ul><li>Protective escalations apply immediately.</li><li>Automated reductions cannot override a higher approved tier.</li><li>All rating changes remain subject to Compliance Officer approval and documented rationale.</li><li>The system blocks a risk-rating change when the reason or reviewer is missing.</li><li>Automated commentary supports, but never replaces, analyst judgment.</li></ul></article>
+            <article class="card methodology-card"><span class="section-kicker">OPERATIONS</span><h3>Risk-Based Review Cycles</h3><ul><li>KYC refresh: High 12 months, Medium 24 months, Low 36 months.</li><li>Annual EDD review: currently High-risk customers only.</li><li>Due dates remain anchored to the last completed review.</li><li>Shared-beneficiary alerts require 2+ distinct senders and the configured CAD threshold.</li><li>Business relationship trigger: 2× CAD 1,000+ or 1× CAD 3,000+ in five years.</li></ul></article>
+            <article class="card methodology-card"><span class="section-kicker">PRIVACY</span><h3>Local Processing</h3><p>The workbook is processed inside the browser. This package has no server connection, login or cloud database. Risk movement history is stored locally in browser storage unless exported.</p></article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <div id="helpModal" class="modal hidden"><div class="modal-card"><button class="modal-close" data-close-modal>×</button><span class="section-kicker">QUICK START</span><h2>Upload the four-tab workbook</h2><ol><li>Click <strong>Upload Excel</strong>.</li><li>Select an XLSX or XLSM workbook containing Data, Country, Occupations and Schema1.</li><li>The Data tab may use either the previous 58-column structure or the new 59-column structure containing <strong>Counterparty Number</strong>.</li><li>Wait while the browser maps fields and calculates the portfolio.</li><li>Use <strong>KYC Refresh Due</strong> for risk-based refreshes, <strong>High-Risk EDD Review</strong> for annual EDD, <strong>Shared Beneficiary Alerts</strong> for network patterns, and <strong>Business Relationships</strong> for qualifying customers.</li><li>Download Updated Excel to retain Compliance Notes, Risk Rating History, KYC Refresh History and EDD Review History.</li></ol><p>No information is sent outside the browser. Legacy XLS files must first be saved as XLSX.</p></div></div>
+  <div id="clientDrawer" class="drawer"><div class="drawer-backdrop" data-close-drawer></div><aside class="drawer-panel"><button class="drawer-close" data-close-drawer>×</button><div id="drawerContent"></div></aside></div>
+
+  
+  
+  
+  
+  
+
+<!-- Libraries load from CDN; local copies in js/vendor/ are used if the CDN is unreachable -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>window.JSZip || document.write('<script src="js/vendor/jszip.min.js"><\/script>')</script>
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@3.3.1/plotly.min.js"></script>
+<script>window.Plotly || document.write('<script src="js/vendor/plotly.min.js"><\/script>')</script>
+<script src="js/engine.js"></script>
+<script src="js/workbook-writer.js"></script>
+<script src="js/insights.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Never commit real compliance data
+*.xlsx
+*.xlsm
+*.xls
+*.csv
+!sample/*.xlsx
